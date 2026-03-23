@@ -1,4 +1,4 @@
-# {{UPSTREAM_REPO}} (LoongArch64 Build)
+# {{TITLE_NAME}} (LoongArch64 Build)
 
 [![Build Status](https://github.com/{{TARGET_ORG}}/{{UPSTREAM_REPO}}/actions/workflows/release.yml/badge.svg)](https://github.com/{{TARGET_ORG}}/{{UPSTREAM_REPO}}/actions)
 
@@ -21,20 +21,20 @@ This repository contains the LoongArch64 build configuration and scripts for **[
 2. **Get latest version
    ```bash
    ./scripts/get_version.sh
-   x.y.z
+   <version>
    ```
 
 3. **Run the build script**:
    ```bash
-   ./scripts/build.sh x.y.z
+   ./scripts/build.sh <version>
    ```
    *Or build inside a Docker container:*
    ```bash
-   ./scripts/build_in_docker.sh x.y.z
+   ./scripts/build_in_docker.sh <version>
    ```
 
 4. **Get the binary**:
-   The compiled binaries will be available in the `dists/x.y.z` directory.
+   The compiled binaries will be available in the `dists/<version>` directory.
 
 ## Development
 

@@ -73,6 +73,11 @@ log_info "📦 Copying files..."
 cp -a "${TEMPLATE_SOURCE}/." .
 
 log_info "🔄 Replacing variables..."
+# 先替换 TITLE，首字母大写
+TEMP_NAME="${UPSTREAM_REPO//-/ }"
+TITLE_NAME=$(echo "$TEMP_NAME" | awk 'BEGIN{FS=OFS=" "} {for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) substr($i,2)} 1')
+sed -i "s|{{TITLE_NAME}}|${TITLE_NAME}|g" README.md
+
 # 递归替换变量
 # 只处理文本类文件，避免损坏二进制文件
 find . -type f \( \
