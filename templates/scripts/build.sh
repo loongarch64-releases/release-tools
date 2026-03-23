@@ -3,6 +3,7 @@ set -euo pipefail
 
 UPSTREAM_OWNER={{UPSTREAM_OWNER}}
 UPSTREAM_REPO={{UPSTREAM_REPO}}
+VERSION="${1}"
 echo "   🏢 Org:   ${UPSTREAM_OWNER}"
 echo "   📦 Proj:  ${UPSTREAM_REPO}"
 echo "   🏷️  Ver:   ${VERSION}"
@@ -55,7 +56,7 @@ post_build()
     # 例如：mkdir -p dists && cp binary dist/
     # 例如：strip dist/binary
     
-    echo "✅ [Post-Build] Artifacts ready in ./dists."
+    echo "✅ [Post-Build] Artifacts ready in ./dists/${VERSION}."
 }
 
 # 主入口
