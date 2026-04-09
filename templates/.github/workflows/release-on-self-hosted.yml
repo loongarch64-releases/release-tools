@@ -1,11 +1,11 @@
-name: Auto Build Dify-Sandbox (Self-hosted)
+name: Auto Build {{UPSTREAM_REPO}}
 
 on:
   workflow_dispatch:
 
 env:
-  UPSTREAM_ORG: "langgenius"
-  UPSTREAM_REPO: "dify-sandbox"
+  UPSTREAM_ORG: "{{UPSTREAM_OWNER}}"
+  UPSTREAM_REPO: "{{UPSTREAM_REPO}}"
 
 jobs:
   check-version:
@@ -25,7 +25,7 @@ jobs:
         run: |
           # 1. 获取上游最新版本
           LATEST_VERSION=$(curl -s https://api.github.com/repos/${{ env.UPSTREAM_ORG }}/${{ env.UPSTREAM_REPO }}/releases/latest | jq -r ".tag_name")
-          echo "Latest upstream dify-sandbox version: $LATEST_VERSION"
+          echo "Latest upstream version: $LATEST_VERSION"
 
           # 2. 检查本仓库是否已存在该 Release
           if gh release view "$LATEST_VERSION" >/dev/null 2>&1; then
@@ -51,7 +51,7 @@ jobs:
 
       - name: Build Builer Image
         run: |
-          docker build -t dify-sandbox-builder .
+          docker build -t "{UPSTREAM_REPO}-builder" .
 
       - name: Build Release
         run: |
@@ -62,7 +62,7 @@ jobs:
           docker run --rm \
             -v $(pwd):/workspace \
             -e VERSION=$VERSION \
-            dify-sandbox-builder /bin/bash /workspace/process_version.sh $VERSION
+            "{UPSTREAM_REPO}-builder" /bin/bash /workspace/process_version.sh $VERSION
 
       - name: Upload Release
         env:
@@ -70,7 +70,7 @@ jobs:
         run: |
           VERSION=${{ needs.check-version.outputs.version }}
           gh release create "$VERSION" \
-            --title "dify-sandbox $VERSION" \
+            --title "${UPSTREAM_REPO} $VERSION" \
             --notes "Automated build for version $VERSION based on ${{ env.UPSTREAM_OWNER }}/${{ env.UPSTREAM_REPO }}" \
             dists/$VERSION/*
 
